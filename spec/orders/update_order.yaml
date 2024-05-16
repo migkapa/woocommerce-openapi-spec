@@ -1,0 +1,85 @@
+openapi: 3.0.3
+info:
+  title: WooCommerce Orders API
+  description: This is a sample API for WooCommerce order retrieval.
+  version: 1.0.0
+servers:
+  - url: https://example.com/wp-json/wc/v3
+
+paths:
+  /orders/{id}:
+    put:
+      summary: Update Order
+      description: Update an order.
+      operationId: updateOrderById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the order to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                            type: object
+              properties:
+                status:
+                  type: string
+                  description: Order status.
+                  enum:
+                    - pending
+                    - processing
+                    - on-hold
+                    - completed
+                    - cancelled
+                    - refunded
+                    - failed
+                    - trash
+                  example: completed
+                customer_note:
+                  type: string
+                  description: Note left by customer during checkout.
+                billing:
+                  $ref: 'components.yaml#/components/schemas/Billing'
+                shipping:
+                  $ref: 'components.yaml#/components/schemas/Shipping'
+                payment_method:
+                  type: string
+                  description: Payment method ID.
+                payment_method_title:
+                  type: string
+                  description: Payment method title.
+                meta_data:
+                  type: array
+                  items:
+                    $ref: 'components.yaml#/components/schemas/Meta'
+                line_items:
+                  type: array
+                  items:
+                    $ref: 'components.yaml#/components/schemas/LineItem'
+                shipping_lines:
+                  type: array
+                  items:
+                    $ref: 'components.yaml#/components/schemas/ShippingLine'
+                fee_lines:
+                  type: array
+                  items:
+                    $ref: 'components.yaml#/components/schemas/FeeLine'
+                coupon_lines:
+                  type: array
+                  items:
+                    $ref: 'components.yaml#/components/schemas/CouponLine'
+                set_paid:
+                  type: boolean
+                  description: Define if the order is paid. It will set the status to processing and reduce stock items.
+                  default: false
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yaml#/components/schemas/Order'

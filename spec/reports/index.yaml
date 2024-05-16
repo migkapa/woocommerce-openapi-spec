@@ -1,0 +1,220 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: WooCommerce Reports API
+  description: WooCommerce Reports API documentation
+
+servers:
+  - url: https://staging-findyourhealthyplacecom.kinsta.cloud/wp-json/wc/v3
+
+paths:
+  /reports/sales:
+    get:
+      summary: Get Sales Report
+      operationId: getSalesReport
+      parameters:
+        - name: context
+          in: query
+          description: Scope under which the request is made; determines fields present in response.
+          required: false
+          schema:
+            type: string
+            enum: [view]
+        - name: period
+          in: query
+          description: Report period.
+          required: false
+          schema:
+            type: string
+            enum: [week, month, last_month, year]
+          default: today
+        - name: date_min
+          in: query
+          description: Return sales for a specific start date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_max
+          in: query
+          description: Return sales for a specific end date.
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_sales:
+                    type: string
+                  net_sales:
+                    type: string
+                  average_sales:
+                    type: string
+                  total_orders:
+                    type: integer
+                  total_items:
+                    type: integer
+                  total_tax:
+                    type: string
+                  total_shipping:
+                    type: string
+                  total_refunds:
+                    type: integer
+                  total_discount:
+                    type: integer
+                  totals_grouped_by:
+                    type: string
+                  totals:
+                    type: array
+                    items:
+                      type: object
+
+  /reports/top_sellers:
+    get:
+      summary: Get Top Sellers Report
+      operationId: getTopSellersReport
+      parameters:
+        - name: context
+          in: query
+          description: Scope under which the request is made; determines fields present in response.
+          required: false
+          schema:
+            type: string
+            enum: [view]
+        - name: period
+          in: query
+          description: Report period.
+          required: false
+          schema:
+            type: string
+            enum: [week, month, last_month, year]
+          default: week
+        - name: date_min
+          in: query
+          description: Return sales for a specific start date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_max
+          in: query
+          description: Return sales for a specific end date.
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  product_id:
+                    type: integer
+                  quantity:
+                    type: integer
+
+  /reports/coupons/totals:
+    get:
+      summary: Get Coupons Totals Report
+      operationId: getCouponsTotalsReport
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  name:
+                    type: string
+                  total:
+                    type: string
+
+  /reports/customers/totals:
+    get:
+      summary: Get Customers Totals Report
+      operationId: getCustomersTotalsReport
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  name:
+                    type: string
+                  total:
+                    type: string
+
+  /reports/orders/totals:
+    get:
+      summary: Get Orders Totals Report
+      operationId: getOrdersTotalsReport
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  name:
+                    type: string
+                  total:
+                    type: string
+
+  /reports/products/totals:
+    get:
+      summary: Get Products Totals Report
+      operationId: getProductsTotalsReport
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  name:
+                    type: string
+                  total:
+                    type: string
+
+  /reports/reviews/totals:
+    get:
+      summary: Get Reviews Totals Report
+      operationId: getReviewsTotalsReport
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  name:
+                    type: string
+                  total:
+                    type: string
